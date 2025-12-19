@@ -66,10 +66,8 @@ const EmployeeComponent = () => {
   return (
     <div className='container'>
       <div className='row'>
-        {/* <div className='card col-md-6 offset-md-3 offset-md-3'> */}
         <div className='card col-md-6 offset-md-3 shadow'>
           <h2 className='text-center mt-3'>{id ? 'Update' : 'Add'} Employee</h2>
-          {/* <div className='body'> */}
           <div className='card-body'>
             <form>
               {/* Input logic */}

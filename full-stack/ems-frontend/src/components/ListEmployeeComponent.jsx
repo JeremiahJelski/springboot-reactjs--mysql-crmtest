@@ -165,16 +165,11 @@ const ListEmployeeComponent = ({ searchTerm }) => {
   return (
     <div className='container'>
         <h2 className='text-center'>Employees List</h2>
-        {/* <button className="btn btn-primary mb-2" onClick={addNewEmployee}>Add Employee</button> */}
         {/* Flex container to push buttons to opposite sides */}
         <div className="d-flex justify-content-between align-items-center mb-3">
-            
-            {/* Left Side Button */}
             <button className="btn btn-primary" onClick={addNewEmployee}>
                 <i className="bi bi-person-plus-fill me-2"></i>Add Employee
             </button>
-
-            {/* Right Side Button */}
             <button className="btn btn-success" onClick={exportToCSV}>
                 <i className="bi bi-file-earmark-spreadsheet me-2"></i>Export CSV
             </button>

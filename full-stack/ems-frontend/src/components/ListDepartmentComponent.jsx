@@ -62,7 +62,6 @@ const ListDepartmentComponent = ({ searchTerm }) => {
                 const name = `${selectedDepartment.departmentName}`;
                 
                 deleteDepartment(selectedDepartment.id).then(() => {
-                    // Now these lines will work because you defined the state above!
                     setLastDeletedDepartment(DepartmentToRestore); 
                     getAllDepartments();
                     setSelectedDepartment(null); 
@@ -116,16 +115,11 @@ const ListDepartmentComponent = ({ searchTerm }) => {
   return (
     <div className='container'>
         <h2 className='text-center'>Departments List</h2>
-        {/* <button className="btn btn-primary mb-2" onClick={addNewDepartment}>Add Department</button> */}
         {/* Flex container to push buttons to opposite sides */}
         <div className="d-flex justify-content-between align-items-center mb-3">
-            
-            {/* Left Side Button */}
             <button className="btn btn-primary" onClick={addNewDepartment}>
                 <i className="bi bi-person-plus-fill me-2"></i>Add Department
             </button>
-
-            {/* Right Side Button */}
             <button className="btn btn-success" onClick={exportToCSV}>
                 <i className="bi bi-file-earmark-spreadsheet me-2"></i>Export CSV
             </button>
