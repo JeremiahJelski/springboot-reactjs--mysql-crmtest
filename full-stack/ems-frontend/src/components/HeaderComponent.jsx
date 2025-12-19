@@ -5,42 +5,59 @@ const HeaderComponent = ({ onSearch }) => {
 
   return (
     <div>
-      <header>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+     <header className="sticky-top">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary shadow-sm py-3">
+        <div className="container-fluid px-4">
           {/* Brand/Logo */}
-          <a className="navbar-brand" href="#">Employee Management System</a>
+          <NavLink className="navbar-brand fw-bold fs-4 d-flex align-items-center" to="/employees">
+            <i className="bi bi-people-fill me-2 text-primary"></i>
+            <span className="tracking-tight">EMS<span className="text-primary">PRO</span></span>
+          </NavLink>
 
           {/* Toggle button for mobile */}
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span className="navbar-toggler-icon"></span>
+          <button className="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+             <span className="navbar-toggler-icon"></span>
           </button>
-
           <div className="collapse navbar-collapse" id="navbarNav">
-            {/* Links - Left Side */}
-            <ul className="navbar-nav">
+            <ul className="navbar-nav ms-4">
               <li className="nav-item">
-                <NavLink className='nav-link' to='/employees'>Employees</NavLink>
+                <NavLink 
+                  className={({ isActive }) => `nav-link ${isActive ? 'active fw-bold text-primary border-bottom border-primary' : ''}`} 
+                  to='/employees'
+                >
+                  Employees
+                </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink className='nav-link' to='/departments'>Departments</NavLink>
+              <li className="nav-item ms-lg-2">
+                <NavLink 
+                  className={({ isActive }) => `nav-link ${isActive ? 'active fw-bold text-primary border-bottom border-primary' : ''}`} 
+                  to='/departments'
+                >
+                  Departments
+                </NavLink>
               </li>
             </ul>
 
-            {/* Search Bar - Pushed to the Right using ms-auto */}
-            <form className="d-flex ms-auto align-items-center">
-              <div className="input-group">
-                <input type="search" 
-                    className="form-control" 
-                    placeholder="Search..." 
+            {/* Search Bar with Icons */}
+            <div className="ms-auto d-flex align-items-center mt-3 mt-lg-0">
+              <div className="input-group" style={{ width: '280px' }}>
+                <span className="input-group-text bg-primary border-primary text-white">
+                  <i className="bi bi-search"></i>
+                </span>
+                <input 
+                    type="search" 
+                    className="form-control bg-white text-dark border-secondary" 
+                    placeholder="Quick search..." 
                     aria-label="Search"
                     onChange={(e) => onSearch(e.target.value)}
                 />
               </div>
-            </form>
+            </div>
           </div>
-        </nav>
-      </header>
-    </div>
+        </div>
+      </nav>
+    </header>
+  </div>
   )
 }
 

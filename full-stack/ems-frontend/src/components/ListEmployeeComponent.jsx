@@ -93,6 +93,14 @@ const ListEmployeeComponent = ({ searchTerm }) => {
         }
     };
 
+    // Sorting icons
+    const getSortIcon = (column) => {
+    if (sortConfig.key !== column) {
+        return 'bi-chevron-expand text-muted'; 
+    }
+    return sortConfig.direction === 'asc' ? 'bi-chevron-up text-primary' : 'bi-chevron-down text-primary';
+    };
+
     // Sorting entries asc or desc order on clicking table headers
     const requestSort = (key) => {
         let direction = 'asc';
@@ -101,7 +109,7 @@ const ListEmployeeComponent = ({ searchTerm }) => {
             direction = 'desc';
         }
         setSortConfig({key, direction});
-    }
+    };
 
     // Apply sorting to your existing filtered list
     const sortedEmployees = [...filteredEmployees].sort((a, b) => {
@@ -119,6 +127,7 @@ const ListEmployeeComponent = ({ searchTerm }) => {
         return 0;
     });
 
+    // Build text file and url in browser and export
     const exportToCSV = () =>{
         if (filteredEmployees.length === 0) return;
 
@@ -179,19 +188,34 @@ const ListEmployeeComponent = ({ searchTerm }) => {
             <thead>     
                 <tr>
                     <th onClick={() => requestSort('id')} style={{cursor: 'pointer'}}>
-                        ID {sortConfig.key === 'id' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '↕'}
+                        <div className="d-flex justify-content-between align-items-center">
+                            ID
+                            <i className={`bi ${getSortIcon('id')}`}></i>
+                        </div>   
                     </th>
-                    <th onClick={() => requestSort('firstName')} style={{cursor: 'pointer'}}>
-                        First Name {sortConfig.key === 'firstName' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '↕'}
+                    <th onClick={() => requestSort('firstName')} style={{ cursor: 'pointer' }}>
+                        <div className="d-flex justify-content-between align-items-center">
+                            First Name
+                            <i className={`bi ${getSortIcon('firstName')}`}></i>
+                        </div>
                     </th>
                     <th onClick={() => requestSort('lastName')} style={{cursor: 'pointer'}}>
-                        Last Name {sortConfig.key === 'lastName' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '↕'}
+                        <div className="d-flex justify-content-between align-items-center">
+                            Last Name
+                            <i className={`bi ${getSortIcon('lastName')}`}></i>
+                        </div>
                     </th>
                     <th onClick={() => requestSort('email')} style={{cursor: 'pointer'}}>
-                        Email {sortConfig.key === 'email' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '↕'}
+                        <div className="d-flex justify-content-between align-items-center">
+                            Email
+                            <i className={`bi ${getSortIcon('email')}`}></i>
+                        </div>
                     </th>
                     <th onClick={() => requestSort('departmentId')} style={{cursor: 'pointer'}}>
-                        Department {sortConfig.key === 'departmentId' ? (sortConfig.direction === 'asc' ? '▲' : '▼') : '↕'}
+                        <div className="d-flex justify-content-between align-items-center">
+                            Department
+                            <i className={`bi ${getSortIcon('departmentId')}`}></i>
+                        </div>
                     </th>
                     <th>Actions</th>
                 </tr>

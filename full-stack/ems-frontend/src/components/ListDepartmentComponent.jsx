@@ -10,7 +10,7 @@ const ListDepartmentComponent = ({ searchTerm }) => {
     const [toastMessage, setToastMessage] = useState('');
     const [showToast, setShowToast] = useState(false);
     const [lastDeletedDepartment, setLastDeletedDepartment] = useState(null);
-
+    const [sortConfig, setSortConfig] = useState({ key: 'departmentName', direction: 'asc' });
 
     function getAllDepartments() {
             listDepartments().then((response) => {
@@ -52,6 +52,37 @@ const ListDepartmentComponent = ({ searchTerm }) => {
         navigator(`/edit-department/${department.id}`)
     }
 
+    // Sorting icons
+    const getSortIcon = (column) => {
+        if (sortConfig.key !== column) {
+            return 'bi-chevron-expand text-muted'; 
+        }
+        return sortConfig.direction === 'asc' ? 'bi-chevron-up text-primary' : 'bi-chevron-down text-primary';
+    };
+
+    // Sorting entries asc or desc order on clicking table headers
+    const requestSort = (key) => {
+        let direction = 'asc';
+
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({key, direction});
+    };
+
+    // Apply sorting to your existing filtered list
+    const sortedDepartments = [...filteredDepartments].sort((a, b) => {
+        // Handle Department Name specifically since it's a lookup
+        let valA = a[sortConfig.key];
+        let valB = b[sortConfig.key];
+        
+        // Swaps
+        if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+        return 0;
+    });
+
+
     const confirmDelete = (department) => {
         setSelectedDepartment(department);
     };
@@ -73,14 +104,14 @@ const ListDepartmentComponent = ({ searchTerm }) => {
             }
         };
 
-        const exportToCSV = () =>{
+    const exportToCSV = () =>{
         if (filteredDepartments.length === 0) return;
 
         // Choose which data to allow to download
         const columnMapping = {
-            id: "ID",
-            departmentName: "First Name",
-            departmentDescription: "Last Name"
+        id: "ID",
+        departmentName: "First Name",
+        departmentDescription: "Last Name"
         };
 
         const keys = Object.keys(columnMapping);
@@ -88,12 +119,12 @@ const ListDepartmentComponent = ({ searchTerm }) => {
         const headerRow = keys.map(key => columnMapping[key]).join(",");
 
         const dataRows = filteredDepartments.map(dep => {
-            return keys.map(key => {
-                let value = dep[key];
-                
-                const cleanValue = String(value?? "").replace(/"/g, '""');
-                return `"${cleanValue}"`;
-            }).join(",");
+        return keys.map(key => {
+            let value = dep[key];
+            
+            const cleanValue = String(value?? "").replace(/"/g, '""');
+            return `"${cleanValue}"`;
+        }).join(",");
         });
 
         const csvContent = [headerRow, ...dataRows].join("\n");
@@ -127,14 +158,29 @@ const ListDepartmentComponent = ({ searchTerm }) => {
         <table className="table table-stripped table-bordered">
             <thead>     
                 <tr>
-                    <th>Department ID</th>
-                    <th>Department Name</th>
-                    <th>Department Description</th>
+                    <th onClick={() => requestSort('id')} style={{cursor: 'pointer'}}>
+                        <div className="d-flex justify-content-between align-items-center">
+                            ID
+                            <i className={`bi ${getSortIcon('id')}`}></i>
+                        </div>   
+                    </th>
+                    <th onClick={() => requestSort('id')} style={{cursor: 'pointer'}}>
+                        <div className="d-flex justify-content-between align-items-center">
+                            Department Name
+                            <i className={`bi ${getSortIcon('departmentName')}`}></i>
+                        </div>   
+                    </th>
+                    <th onClick={() => requestSort('id')} style={{cursor: 'pointer'}}>
+                        <div className="d-flex justify-content-between align-items-center">
+                            Department Description
+                            <i className={`bi ${getSortIcon('departmentDescription')}`}></i>
+                        </div>   
+                    </th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                { filteredDepartments.map(department => 
+                { sortedDepartments.map(department => 
                     <tr key={department.id}>
                         <td>{department.id}</td>
                         <td>{department.departmentName}</td>
