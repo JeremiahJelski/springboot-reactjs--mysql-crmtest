@@ -1,0 +1,17 @@
+# Prerequisites
+node_modules/
+dist/
+build/
+target/
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+out/
+
+# VS Code
+.vscode/
+
+# OS specific
+.DS_Store
+Thumbs.db
