@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-const HeaderComponent = ({ onSearch }) => {
+const HeaderComponent = ({ onSearch, searchTerm }) => {
 
   return (
     <div>
@@ -49,6 +49,7 @@ const HeaderComponent = ({ onSearch }) => {
                     className="form-control bg-white text-dark border-secondary" 
                     placeholder="Quick search..." 
                     aria-label="Search"
+                    value={searchTerm}
                     onChange={(e) => onSearch(e.target.value)}
                 />
               </div>
